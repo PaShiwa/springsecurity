@@ -1,0 +1,66 @@
+
+/*
+ * Disabling CSRF protection using csrf(customizer -> customizer.disable()).
+ *
+ * CSRF (Cross-Site Request Forgery) is a type of attack where a malicious site
+ * tricks the user's browser into making unwanted requests to your server using their session.
+ *
+ * By default, Spring Security enables CSRF protection for stateful applications (e.g., form login).
+ * It prevents CSRF attacks by requiring a CSRF token on state-changing requests (POST, PUT, DELETE).
+ *
+ * This line disables CSRF protection — suitable for stateless REST APIs using tokens (like JWT),
+ * where no session or cookie-based authentication is involved.
+ *
+ * To prevent CSRF attacks through other means:
+ * - Use CSRF-Tokens
+ * - Use stateless authentication like JWT (no cookies, no sessions)
+ * - Require Authorization headers (e.g., Bearer tokens)
+ * - Use SameSite=strict for any cookies you do use
+ * - USe double submit cookie pattern
+ *
+ * Only disable CSRF if you're building an API that does NOT rely on cookies for auth.
+ */
+
+/*
+ * Enables default form-based login using formLogin(Customizer.withDefaults()).
+ *
+ * This instructs Spring Security to provide a built-in login page at /login.
+ * When an unauthenticated user tries to access a protected resource,
+ * they are automatically redirected to the login form.
+ *
+ * Default behavior includes:
+ * - GET /login → renders login form
+ * - POST /login → handles login submission
+ * - Redirects to original URL after successful login
+ *
+ * Useful for quick testing and prototyping.
+ * For production apps, you can customize the login page with:
+ *   .loginPage("/custom-login")
+ */
+/*
+ * Enables HTTP Basic Authentication using httpBasic(Customizer.withDefaults()).
+ *
+ * With this enabled, clients (like Postman, curl, or browsers) can authenticate
+ * by sending credentials in the HTTP `Authorization` header:
+ *   Authorization: Basic base64(username:password)
+ *
+ * - No login form is shown
+ * - Useful for testing or securing REST APIs
+ * - Should only be used over HTTPS to avoid credential exposure
+ *
+ * Not suitable for browser-based login UIs. For that, use formLogin().
+ */
+
+/*
+ * Setting sessionCreationPolicy(SessionCreationPolicy.STATELESS) tells Spring Security
+ * to NOT store authentication in the session (i.e., stateless security).
+ *
+ * However, this does NOT prevent the servlet container (like Tomcat) from creating a session.
+ * So you may still see a JSESSIONID cookie in responses (e.g., in Postman),
+ * but it's unused by Spring Security and a new one is created on each request.
+ *
+ * Summary:
+ * - Spring Security won't store auth in session (stateless)
+ * - Servlet container may still create JSESSIONID
+ * - Each request is treated independently (no login persistence)
+ */
