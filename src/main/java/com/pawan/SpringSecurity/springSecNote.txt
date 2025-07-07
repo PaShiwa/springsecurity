@@ -64,3 +64,16 @@
  * - Servlet container may still create JSESSIONID
  * - Each request is treated independently (no login persistence)
  */
+
+/*
+Control flow order
+Form -> UsernamePasswordAuthenticationToken
+     -> AuthenticationManager
+     -> DaoAuthenticationProvider
+     -> UserDetailsService (MyUserDetailsService)
+     -> UserRepository
+     -> DB lookup -> return UserPrincipal (UserDetails)
+     -> Password compared via PasswordEncoder
+     -> ✅ Authenticated or ❌ Denied
+
+*/

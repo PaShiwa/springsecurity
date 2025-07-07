@@ -1,4 +1,4 @@
-package com.pawan.SpringSecurity;
+package com.pawan.SpringSecurity.model;
 
 public class Student {
     private int id;

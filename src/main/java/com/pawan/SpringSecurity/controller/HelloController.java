@@ -1,4 +1,4 @@
-package com.pawan.SpringSecurity;
+package com.pawan.SpringSecurity.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,6 +9,6 @@ public class HelloController {
 
     @GetMapping("")
     public String greet(HttpServletRequest request){
-        return "Happy Thuli Ekadashi ";
+        return "Exploring Spring Security... SessionID -> " + request.getSession().getId() ;
     }
 }
