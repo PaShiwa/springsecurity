@@ -3,6 +3,9 @@ package com.pawan.SpringSecurity.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+/*
+There is a separate class called User in Spring Security already! Hence, used Users.
+ */
 @Entity
 public class Users {
 
