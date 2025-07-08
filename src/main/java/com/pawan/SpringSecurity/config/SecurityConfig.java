@@ -1,5 +1,6 @@
 package com.pawan.SpringSecurity.config;
 
+import com.pawan.SpringSecurity.config.filterPackage.JwtFilter;
 import jakarta.websocket.Session;
 import org.apache.coyote.Request;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -29,6 +31,9 @@ public class SecurityConfig {
 
     @Autowired
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtFilter jwtFilter;
     /*
   SecurityFilterChain: Entry point for configuring Spring Security filters and rules
   This is the starting point of Spring Boot Security configuration
@@ -52,30 +57,9 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .sessionManagement(session->
                         session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        .build();
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
-
-    /*
-    UserDetailsService is a Spring Security interface used to load user-specific data during the authentication process.
-     */
-//    @Bean
-//    public UserDetailsService userDetailsService(){
-//        UserDetails user1 = User
-//                .withDefaultPasswordEncoder()
-//                .username("pooja")
-//                .password("p@123")
-//                .roles("USER")
-//                .build();
-//
-//        UserDetails user2 = User
-//                .withDefaultPasswordEncoder()
-//                .username("john")
-//                .password("j@123")
-//                .roles("ADMIN")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(user1,user2);
-//    }
 
     /*
     AuthenticationProvider is a core interface in Spring Security that handles how authentication is performed
