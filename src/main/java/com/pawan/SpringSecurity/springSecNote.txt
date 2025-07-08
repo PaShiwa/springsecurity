@@ -69,8 +69,8 @@
 Control flow order
 Form -> UsernamePasswordAuthenticationToken
      -> AuthenticationManager
-     -> DaoAuthenticationProvider
-     -> UserDetailsService (MyUserDetailsService)
+     -> AuthenticationProvider
+     -> UserDetailsService
      -> UserRepository
      -> DB lookup -> return UserPrincipal (UserDetails)
      -> Password compared via PasswordEncoder
