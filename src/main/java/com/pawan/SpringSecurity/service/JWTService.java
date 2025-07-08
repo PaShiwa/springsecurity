@@ -32,10 +32,14 @@ public class JWTService {
     }
 
     public String generateToken(String username) {
+        /*
+        A Map<String, Object> used to hold custom payload data in a JWT.
+        It allows you to include extra info in the token, like:
+        User roles, Email, User ID, Any app-specific metadata
+         */
         Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
-                .claims()
-                .add(claims)
+                .claims().add(claims)
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 60 * 60 * 30))

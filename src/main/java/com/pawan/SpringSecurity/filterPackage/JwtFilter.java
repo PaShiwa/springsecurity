@@ -1,4 +1,4 @@
-package com.pawan.SpringSecurity.config.filterPackage;
+package com.pawan.SpringSecurity.filterPackage;
 
 import com.pawan.SpringSecurity.service.JWTService;
 import com.pawan.SpringSecurity.service.MyUserDetailsService;

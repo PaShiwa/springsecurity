@@ -66,14 +66,40 @@
  */
 
 /*
-Control flow order
-Form -> UsernamePasswordAuthenticationToken
-     -> AuthenticationManager
-     -> AuthenticationProvider
-     -> UserDetailsService
-     -> UserRepository
-     -> DB lookup -> return UserPrincipal (UserDetails)
-     -> Password compared via PasswordEncoder
-     -> ✅ Authenticated or ❌ Denied
+Control flow for authentication:
+
+Login Request (username/password)
+   ↓
+[Form-based login]
+   → Default UsernamePasswordAuthenticationFilter
+     - Only parses form fields (application/x-www-form-urlencoded)
+     - Creates UsernamePasswordAuthenticationToken
+     ✅ Works for HTML forms & Postman (form data)
+
+[JSON-based login (React/Postman JSON)]
+   → ❌ Default filter will NOT parse JSON body
+     → ✅ You must create a **custom authentication filter**
+        - Parses JSON
+        - Creates UsernamePasswordAuthenticationToken
+        - Register it in Spring Security config
+
+Once Token is created (form or JSON):
+   ↓
+AuthenticationManager
+   ↓
+AuthenticationProvider (e.g., DaoAuthenticationProvider)
+   ↓
+UserDetailsService
+   ↓
+UserRepository
+   ↓
+DB lookup → returns UserPrincipal (implements UserDetails)
+   ↓
+PasswordEncoder.matches(raw, encoded)
+   ↓
+✅ Authenticated → saved in SecurityContext
+   OR
+❌ Denied → Exception thrown
+
 
 */
